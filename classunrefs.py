@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import os
 import re
@@ -41,7 +41,7 @@ def pointers_from_binary(line, binary_file_arch):
 
 
 def class_ref_pointers(path, binary_file_arch):
-    print 'Get class ref pointers...'
+    print('Get class ref pointers...')
     ref_pointers = set()
     lines = os.popen('/usr/bin/otool -v -s __DATA __objc_classrefs %s' % path).readlines()
     for line in lines:
@@ -55,7 +55,7 @@ def class_ref_pointers(path, binary_file_arch):
 
 
 def class_list_pointers(path, binary_file_arch):
-    print 'Get class list pointers...'
+    print('Get class list pointers...')
     list_pointers = set()
     lines = os.popen('/usr/bin/otool -v -s __DATA __objc_classlist %s' % path).readlines()
     for line in lines:
@@ -69,7 +69,7 @@ def class_list_pointers(path, binary_file_arch):
 
 
 def class_symbols(path):
-    print 'Get class symbols...'
+    print('Get class symbols...')
     symbols = {}
     #class symbol format from nm: 0000000103113f68 (__DATA,__objc_data) external _OBJC_CLASS_$_TTEpisodeStatusDetailItemView
     re_class_name = re.compile('(\w{16}) .* _OBJC_CLASS_\$_(.+)')
@@ -130,7 +130,7 @@ def class_unref_symbols(path,reserved_prefix,filter_prefix):
 
 
 if __name__ == '__main__':
-    path = raw_input('Please input app path\nFor example:/Users/yuencong/Library/Developer/Xcode/DerivedData/***/Build/Products/Dev-iphoneos/***.app\n').strip()
+    path = input('Please input app path\nFor example:/Users/yuencong/Library/Developer/Xcode/DerivedData/***/Build/Products/Dev-iphoneos/***.app\n').strip()
     path = verified_app_path(path)
     if not path:
         sys.exit('Error:invalid app path')
@@ -144,8 +144,8 @@ if __name__ == '__main__':
     f.write('classunrefs count: %d\n' % len(unref_symbols))
     f.write('Precondition: reserve class startwiths \'%s\', filter class startwiths \'%s\'.\n\n' %(reserved_prefix, filter_prefix))
     for unref_symbol in unref_symbols:
-        print 'classunref: ' + unref_symbol
+        print('classunref: ' + unref_symbol)
         f.write(unref_symbol + "\n")
     f.close()
 
-    print 'Done! result.txt already stored in script dir.'
+    print('Done! result.txt already stored in script dir.')
