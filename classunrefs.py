@@ -24,18 +24,18 @@ def pointers_from_binary(line, binary_file_arch):
     pointers = set()
     if binary_file_arch == 'x86_64':
         #untreated line example:00000001030cec80	d8 75 15 03 01 00 00 00 68 77 15 03 01 00 00 00
-        if len(line) != 16:
-            return None
-        pointers.add(''.join(line[4:8][::-1] + line[0:4][::-1]))
-        pointers.add(''.join(line[12:16][::-1] + line[8:12][::-1]))
+        if len(line) >= 8:
+            pointers.add(''.join(line[4:8][::-1] + line[0:4][::-1]))
+        if len(line) >= 16:
+            pointers.add(''.join(line[12:16][::-1] + line[8:12][::-1]))
         return pointers
     #arm64 confirmed,armv7 arm7s unconfirmed
     if binary_file_arch.startswith('arm'):
         #untreated line example:00000001030bcd20	03138580 00000001 03138878 00000001
-        if len(line) != 4:
-            return None
-        pointers.add(line[1] + line[0])
-        pointers.add(line[3] + line[2])
+        if len(line) >= 2:
+            pointers.add(line[1] + line[0])
+        if len(line) >= 4:
+            pointers.add(line[3] + line[2])
         return pointers
     return None
 
