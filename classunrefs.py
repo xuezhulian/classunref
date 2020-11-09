@@ -8,8 +8,6 @@ def verified_app_path(path):
     if path.endswith('.app'):
         appname = path.split('/')[-1].split('.')[0]
         path = os.path.join(path, appname)
-        if appname.endswith('-iPad'):
-            path = path.replace(appname, appname[:-5])
     if not os.path.isfile(path):
         return None
     if not os.popen('file -b ' + path).read().startswith('Mach-O'):
