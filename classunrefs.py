@@ -6,7 +6,8 @@ import sys
 
 def verified_app_path(path):
     if path.endswith('.app'):
-        appname = path.split('/')[-1].split('.')[0]
+        # appname = path.split('/')[-1].split('.')[0]
+        appname = os.path.splitext(path)[0].split('/')[-1]
         path = os.path.join(path, appname)
     if not os.path.isfile(path):
         return None
